@@ -10,3 +10,16 @@ C:\Users\admin\source\repos\SOHGeneratePrescription\Order.Repository\obj\Release
 C:\Users\admin\source\repos\SOHGeneratePrescription\Order.Repository\obj\Release\net8.0\refint\Order.Repository.dll
 C:\Users\admin\source\repos\SOHGeneratePrescription\Order.Repository\obj\Release\net8.0\Order.Repository.pdb
 C:\Users\admin\source\repos\SOHGeneratePrescription\Order.Repository\obj\Release\net8.0\ref\Order.Repository.dll
+D:\GitHub\SOH-Prescription-create-Azure-Function\Order.Repository\bin\Release\net8.0\Order.Repository.deps.json
+D:\GitHub\SOH-Prescription-create-Azure-Function\Order.Repository\bin\Release\net8.0\Order.Repository.dll
+D:\GitHub\SOH-Prescription-create-Azure-Function\Order.Repository\bin\Release\net8.0\Order.Repository.pdb
+D:\GitHub\SOH-Prescription-create-Azure-Function\Order.Repository\obj\Release\net8.0\Order.Repository.csproj.AssemblyReference.cache
+D:\GitHub\SOH-Prescription-create-Azure-Function\Order.Repository\obj\Release\net8.0\Order.Repository.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\SOH-Prescription-create-Azure-Function\Order.Repository\obj\Release\net8.0\Order.Repository.AssemblyInfoInputs.cache
+D:\GitHub\SOH-Prescription-create-Azure-Function\Order.Repository\obj\Release\net8.0\Order.Repository.AssemblyInfo.cs
+D:\GitHub\SOH-Prescription-create-Azure-Function\Order.Repository\obj\Release\net8.0\Order.Repository.csproj.CoreCompileInputs.cache
+D:\GitHub\SOH-Prescription-create-Azure-Function\Order.Repository\obj\Release\net8.0\Order.Repository.sourcelink.json
+D:\GitHub\SOH-Prescription-create-Azure-Function\Order.Repository\obj\Release\net8.0\Order.Repository.dll
+D:\GitHub\SOH-Prescription-create-Azure-Function\Order.Repository\obj\Release\net8.0\refint\Order.Repository.dll
+D:\GitHub\SOH-Prescription-create-Azure-Function\Order.Repository\obj\Release\net8.0\Order.Repository.pdb
+D:\GitHub\SOH-Prescription-create-Azure-Function\Order.Repository\obj\Release\net8.0\ref\Order.Repository.dll

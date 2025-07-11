@@ -44,7 +44,7 @@ namespace Order.Repository.Entities
         public string? PrescriberPractiseAddress { get; set; }
         public string? PrescriberProfessionalQualitifcation { get; set; }
         public string? PrescriberPhoneNumber { get; set; }
-        public string? PrescriptionWritingDate { get; set; }
+        public DateTime? PrescriptionWritingDate { get; set; }
         public string? MedicationNumberOfRepeats { get; set; }
         public string? PrescriberSignature { get; set; }
         public string? PrescriberSignaturePath { get; set; }
