@@ -41,6 +41,7 @@ namespace Order.Repository.Entities
         public Nullable<int> PackUserID { get; set; }
         public Nullable<int> PickUserID { get; set; }
         public string? PrescriberNo { get; set; }
+        public string? PrescriberTitle { get; set; }
         public string? PrescriberPractiseAddress { get; set; }
         public string? PrescriberProfessionalQualitifcation { get; set; }
         public string? PrescriberPhoneNumber { get; set; }

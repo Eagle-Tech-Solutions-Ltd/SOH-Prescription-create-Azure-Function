@@ -106,7 +106,7 @@ namespace SOHGeneratePrescription
                         //https://onlinepngtools.com/images/examples-onlinepngtools/george-walker-bush-signature.png
 
                         using (var httpClient = new HttpClient())
-                            logoBytesSignature = await httpClient.GetByteArrayAsync(!string.IsNullOrEmpty(item.PrescriberSignaturePath) ? item.PrescriberSignaturePath : "https://onlinepngtools.com/images/examples-onlinepngtools/george-walker-bush-signature.png");
+                            logoBytesSignature = await httpClient.GetByteArrayAsync(!string.IsNullOrEmpty(item.PrescriberSignature) ? item.PrescriberSignature : "https://onlinepngtools.com/images/examples-onlinepngtools/george-walker-bush-signature.png");
 
                         var document = QuestPDF.Fluent.Document.Create(container =>
                         {
@@ -165,7 +165,11 @@ namespace SOHGeneratePrescription
 
                                         table.Cell().AlignLeft().Element(CellStyle).Text(item.order_date.ToString("dd/MM/yyyy"));
                                         table.Cell().AlignRight().Element(CellStyle).Text("Prescription Date").Bold();
-                                        table.Cell().AlignRight().Element(CellStyle).Text(DateTime.Now.ToString("dd/MM/yyyy"));
+
+                                        if (item.PrescriptionWritingDate.HasValue)
+                                            table.Cell().AlignRight().Element(CellStyle).Text(item.PrescriptionWritingDate.Value.Date.ToString("dd/MM/yyyy"));
+                                        else
+                                            table.Cell().AlignRight().Element(CellStyle).Text("");
 
                                         table.Cell().AlignLeft().Element(CellStyle).Text(item.forge_order_id);
                                         table.Cell().AlignRight().Element(CellStyle).Text("Order Amount (AUD)").Bold();
@@ -244,11 +248,11 @@ namespace SOHGeneratePrescription
                                     {
                                         customer.Item().PaddingBottom(20).Row(row =>
                                         {
-                                            col.Item().Text("Repeat(s): ").FontSize(10);
+                                            col.Item().Text("Repeat(s): As required during the approved period within reasonable use guidelines for the treatment. More repeats may be dispensed as required in the event the patient does not receive the treatment.").FontSize(10);
                                         });
                                     });
 
-                                    if (!string.IsNullOrEmpty(item.PrescriberSignaturePath) && logoBytesSignature != null && logoBytesSignature.Length > 0)
+                                    if (!string.IsNullOrEmpty(item.PrescriberSignature) && logoBytesSignature != null && logoBytesSignature.Length > 0)
                                     {
                                         col.Item().PaddingTop(30).Row(row =>
                                         {
@@ -261,8 +265,16 @@ namespace SOHGeneratePrescription
                                             row.RelativeItem(); // Spacer to fill row
                                         });
                                     }
+                                    //col.Item().PaddingTop(5).Text(order.PrescriberName).FontSize(10).Bold();
 
-                                    col.Item().PaddingTop(5).Text(order.PrescriberName).FontSize(10).Bold();
+                                    if (!string.IsNullOrEmpty(order.PrescriberTitle) && !string.IsNullOrEmpty(order.PrescriberName))
+                                        col.Item().PaddingTop(5).Text(order.PrescriberTitle + " " + order.PrescriberName).FontSize(10).Bold();
+                                    else if (!string.IsNullOrEmpty(order.PrescriberName))
+                                        col.Item().PaddingTop(5).Text(order.PrescriberName).FontSize(10).Bold();
+                                    else if (!string.IsNullOrEmpty(order.PrescriberTitle))
+                                        col.Item().PaddingTop(5).Text(order.PrescriberTitle).FontSize(10).Bold();
+                                    else
+                                        col.Item().PaddingTop(5).Text("").FontSize(10).Bold();
                                 });
 
                                 page.Footer().AlignCenter().Column(column =>
