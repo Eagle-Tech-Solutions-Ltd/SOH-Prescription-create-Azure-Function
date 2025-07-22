@@ -6,6 +6,8 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Order.Repository;
+using Order.Repository.Helper;
+using Order.Repository.Model;
 using Order.Repository.Services;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
@@ -19,6 +21,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace SOHGeneratePrescription
 {
@@ -95,18 +98,25 @@ namespace SOHGeneratePrescription
 
                 foreach (var item in allOrders.orders)
                 {
+                    if (item == null)
+                    {
+                        log.LogError("Invalid order data found for order ID: " + item?.id);
+                        continue;
+                    }
+
                     var order = item;
                     var orderItemList = item.OrderItemDetails.ToList();
 
                     var customer = await _salesOrderRepo.GetCustomDetailAsync(log, order.bc_customer_id).ConfigureAwait(false);
                     if (customer != null)
                     {
+                        var signature = await GetPrescriberSignature(log, order.PrescriberSignature, order.PrescriberSignaturePath).ConfigureAwait(false);
                         using var stream = new MemoryStream();
                         byte[] logoBytesSignature;
                         //https://onlinepngtools.com/images/examples-onlinepngtools/george-walker-bush-signature.png
 
                         using (var httpClient = new HttpClient())
-                            logoBytesSignature = await httpClient.GetByteArrayAsync(!string.IsNullOrEmpty(item.PrescriberSignature) ? item.PrescriberSignature : "https://onlinepngtools.com/images/examples-onlinepngtools/george-walker-bush-signature.png");
+                            logoBytesSignature = await httpClient.GetByteArrayAsync(!string.IsNullOrEmpty(signature) ? signature : "https://onlinepngtools.com/images/examples-onlinepngtools/george-walker-bush-signature.png");
 
                         var document = QuestPDF.Fluent.Document.Create(container =>
                         {
@@ -213,7 +223,7 @@ namespace SOHGeneratePrescription
                                                 table.Cell().AlignCenter().Element(CellStyle).Text("0.5mg");
                                                 table.Cell().AlignCenter().Element(CellStyle).Text(item.quantity.ToString());
                                                 table.Cell().AlignCenter().Element(CellStyle).Text("$" + item.unit_price);
-                                                table.Cell().AlignCenter().Element(CellStyle).Text("$" + item.vat_rate);
+                                                table.Cell().AlignCenter().Element(CellStyle).Text("$" + item.total_price);
 
                                                 table.Cell().AlignLeft().Element(CellStyleNoPadd).Text("Dosage:").FontSize(5).Bold();
                                                 table.Cell().ColumnSpan(4).Element(CellStyleNoPadd).Text("");
@@ -252,13 +262,13 @@ namespace SOHGeneratePrescription
                                         });
                                     });
 
-                                    if (!string.IsNullOrEmpty(item.PrescriberSignature) && logoBytesSignature != null && logoBytesSignature.Length > 0)
+                                    if (!string.IsNullOrEmpty(signature) && logoBytesSignature != null && logoBytesSignature.Length > 0)
                                     {
                                         col.Item().PaddingTop(30).Row(row =>
                                         {
 
                                             row.ConstantItem(90)
-                                            .Height(40)
+                                            .Height(60)
                                             .AlignLeft()
                                             .Image(logoBytesSignature, ImageScaling.FitArea);
 
@@ -273,6 +283,11 @@ namespace SOHGeneratePrescription
                                         col.Item().PaddingTop(5).Text(order.PrescriberName).FontSize(10).Bold();
                                     else if (!string.IsNullOrEmpty(order.PrescriberTitle))
                                         col.Item().PaddingTop(5).Text(order.PrescriberTitle).FontSize(10).Bold();
+                                    else
+                                        col.Item().PaddingTop(5).Text("").FontSize(10).Bold();
+
+                                    if(!string.IsNullOrEmpty(order.PrescriberProfessionalQualitifcation))
+                                        col.Item().PaddingTop(5).Text(order.PrescriberProfessionalQualitifcation).FontSize(10).Bold();
                                     else
                                         col.Item().PaddingTop(5).Text("").FontSize(10).Bold();
                                 });
@@ -374,6 +389,44 @@ namespace SOHGeneratePrescription
             }
 
             return retval;
+        }
+
+        public async Task<string> GetPrescriberSignature(ILogger log, string fileName, string folderName)
+        {
+            var signature = string.Empty;
+            try
+            {
+                if (string.IsNullOrEmpty(fileName) || string.IsNullOrEmpty(folderName))
+                {
+                    log.LogError("File name or path is empty.");
+                    return signature;
+                }
+
+                var request = new ForgeSignatureRequest
+                {
+                    file_name = fileName,
+                    folder_name = folderName
+                };
+
+                var jsonString = JsonConvert.SerializeObject(request);
+                var signatureResponse = await APICall.ForgePostCall(jsonString);
+
+                if (!string.IsNullOrEmpty(signatureResponse))
+                {
+                    var signatureData = JsonConvert.DeserializeObject<ForgeSignatureResponse>(signatureResponse);
+                    if (signatureData != null && !string.IsNullOrEmpty(signatureData.data?.download_url) && signatureData.status?.success == true)
+                        signature = signatureData.data?.download_url;
+                    else
+                        log.LogError("Signature data is null or empty.");
+                }
+                else
+                    log.LogError("Signature response is null or empty.");
+            }
+            catch (Exception ex)
+            {
+                log.LogError($"Error fetching prescriber signature: {ex.Message}");
+            }
+            return signature;
         }
     }
 }

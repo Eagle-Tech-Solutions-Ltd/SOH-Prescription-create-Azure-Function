@@ -57,5 +57,37 @@ namespace Order.Repository.Helper
 
             return retval;
         }
+
+        public static async Task<string> ForgePostCall(string Data)
+        {
+            var retval = string.Empty;
+
+            try
+            {
+                var forgeAPIKey = Environment.GetEnvironmentVariable("ForgeAPIKey");
+                var finalAPIURL = Environment.GetEnvironmentVariable("ForgeSignatureAPIURL");
+                var client = new HttpClient();
+                var request = new HttpRequestMessage(HttpMethod.Post, finalAPIURL);
+                //request.Headers.Add("accept", "/");
+                request.Headers.Add("x-api-key", forgeAPIKey);
+                var jsonContent = new StringContent(Data);
+                jsonContent.Headers.ContentType = new MediaTypeWithQualityHeaderValue("application/json");
+                request.Content = jsonContent;
+                var response = await client.SendAsync(request);
+                //response.EnsureSuccessStatusCode();
+                //Console.WriteLine(await response.Content.ReadAsStringAsync());
+
+                if (response.IsSuccessStatusCode)
+                    retval = await response.Content.ReadAsStringAsync();
+                else
+                    retval = await response.Content.ReadAsStringAsync();
+
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return retval;
+        }
     }
 }
