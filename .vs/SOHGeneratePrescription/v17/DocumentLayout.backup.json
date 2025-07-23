@@ -3,36 +3,20 @@
   "WorkspaceRootPath": "D:\\GitHub\\SOH-Prescription-create-Azure-Function\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1AA4DC3D-503E-4A1C-9281-3C9B25716CCA}|SOHGeneratePrescription\\SOHGeneratePrescription.csproj|d:\\github\\soh-prescription-create-azure-function\\sohgenerateprescription\\local.settings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{1AA4DC3D-503E-4A1C-9281-3C9B25716CCA}|SOHGeneratePrescription\\SOHGeneratePrescription.csproj|solutionrelative:sohgenerateprescription\\local.settings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1AA4DC3D-503E-4A1C-9281-3C9B25716CCA}|SOHGeneratePrescription\\SOHGeneratePrescription.csproj|d:\\github\\soh-prescription-create-azure-function\\sohgenerateprescription\\createprescriptionsync.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1AA4DC3D-503E-4A1C-9281-3C9B25716CCA}|SOHGeneratePrescription\\SOHGeneratePrescription.csproj|solutionrelative:sohgenerateprescription\\createprescriptionsync.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A81F71D4-D806-49B0-B253-8428BE082129}|Order.Repository\\Order.Repository.csproj|d:\\github\\soh-prescription-create-azure-function\\order.repository\\helper\\apicall.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A81F71D4-D806-49B0-B253-8428BE082129}|Order.Repository\\Order.Repository.csproj|solutionrelative:order.repository\\helper\\apicall.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A81F71D4-D806-49B0-B253-8428BE082129}|Order.Repository\\Order.Repository.csproj|d:\\github\\soh-prescription-create-azure-function\\order.repository\\services\\salesorderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A81F71D4-D806-49B0-B253-8428BE082129}|Order.Repository\\Order.Repository.csproj|solutionrelative:order.repository\\services\\salesorderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1AA4DC3D-503E-4A1C-9281-3C9B25716CCA}|SOHGeneratePrescription\\SOHGeneratePrescription.csproj|d:\\github\\soh-prescription-create-azure-function\\sohgenerateprescription\\host.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{1AA4DC3D-503E-4A1C-9281-3C9B25716CCA}|SOHGeneratePrescription\\SOHGeneratePrescription.csproj|solutionrelative:sohgenerateprescription\\host.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{1AA4DC3D-503E-4A1C-9281-3C9B25716CCA}|SOHGeneratePrescription\\SOHGeneratePrescription.csproj|d:\\github\\soh-prescription-create-azure-function\\sohgenerateprescription\\local.settings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{1AA4DC3D-503E-4A1C-9281-3C9B25716CCA}|SOHGeneratePrescription\\SOHGeneratePrescription.csproj|solutionrelative:sohgenerateprescription\\local.settings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A81F71D4-D806-49B0-B253-8428BE082129}|Order.Repository\\Order.Repository.csproj|d:\\github\\soh-prescription-create-azure-function\\order.repository\\helper\\apicall.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A81F71D4-D806-49B0-B253-8428BE082129}|Order.Repository\\Order.Repository.csproj|solutionrelative:order.repository\\helper\\apicall.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A81F71D4-D806-49B0-B253-8428BE082129}|Order.Repository\\Order.Repository.csproj|d:\\github\\soh-prescription-create-azure-function\\order.repository\\model\\forgesignatureresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A81F71D4-D806-49B0-B253-8428BE082129}|Order.Repository\\Order.Repository.csproj|solutionrelative:order.repository\\model\\forgesignatureresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A81F71D4-D806-49B0-B253-8428BE082129}|Order.Repository\\Order.Repository.csproj|d:\\github\\soh-prescription-create-azure-function\\order.repository\\model\\forgesignaturerequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A81F71D4-D806-49B0-B253-8428BE082129}|Order.Repository\\Order.Repository.csproj|solutionrelative:order.repository\\model\\forgesignaturerequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A81F71D4-D806-49B0-B253-8428BE082129}|Order.Repository\\Order.Repository.csproj|d:\\github\\soh-prescription-create-azure-function\\order.repository\\entities\\orderdetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A81F71D4-D806-49B0-B253-8428BE082129}|Order.Repository\\Order.Repository.csproj|solutionrelative:order.repository\\entities\\orderdetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1AA4DC3D-503E-4A1C-9281-3C9B25716CCA}|SOHGeneratePrescription\\SOHGeneratePrescription.csproj|d:\\github\\soh-prescription-create-azure-function\\sohgenerateprescription\\createprescriptionsync.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AA4DC3D-503E-4A1C-9281-3C9B25716CCA}|SOHGeneratePrescription\\SOHGeneratePrescription.csproj|solutionrelative:sohgenerateprescription\\createprescriptionsync.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,111 +26,63 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SalesOrderRepository.cs",
+              "DocumentMoniker": "D:\\GitHub\\SOH-Prescription-create-Azure-Function\\Order.Repository\\Services\\SalesOrderRepository.cs",
+              "RelativeDocumentMoniker": "Order.Repository\\Services\\SalesOrderRepository.cs",
+              "ToolTip": "D:\\GitHub\\SOH-Prescription-create-Azure-Function\\Order.Repository\\Services\\SalesOrderRepository.cs",
+              "RelativeToolTip": "Order.Repository\\Services\\SalesOrderRepository.cs",
+              "ViewState": "AgIAAEMAAAAAAAAAAAAhwIoAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-23T12:09:22.205Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "APICall.cs",
+              "DocumentMoniker": "D:\\GitHub\\SOH-Prescription-create-Azure-Function\\Order.Repository\\Helper\\APICall.cs",
+              "RelativeDocumentMoniker": "Order.Repository\\Helper\\APICall.cs",
+              "ToolTip": "D:\\GitHub\\SOH-Prescription-create-Azure-Function\\Order.Repository\\Helper\\APICall.cs",
+              "RelativeToolTip": "Order.Repository\\Helper\\APICall.cs",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAewDYAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-23T12:02:47.821Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{6324226f-61b6-4f28-92ee-18d4b5fe1e48}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "APICall.cs",
-              "DocumentMoniker": "D:\\GitHub\\SOH-Prescription-create-Azure-Function\\Order.Repository\\Helper\\APICall.cs",
-              "RelativeDocumentMoniker": "Order.Repository\\Helper\\APICall.cs",
-              "ToolTip": "D:\\GitHub\\SOH-Prescription-create-Azure-Function\\Order.Repository\\Helper\\APICall.cs",
-              "RelativeToolTip": "Order.Repository\\Helper\\APICall.cs",
-              "ViewState": "AgIAAEEAAAAAAAAAAAAUwE4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-22T05:02:10.749Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ForgeSignatureRequest.cs",
-              "DocumentMoniker": "D:\\GitHub\\SOH-Prescription-create-Azure-Function\\Order.Repository\\Model\\ForgeSignatureRequest.cs",
-              "RelativeDocumentMoniker": "Order.Repository\\Model\\ForgeSignatureRequest.cs",
-              "ToolTip": "D:\\GitHub\\SOH-Prescription-create-Azure-Function\\Order.Repository\\Model\\ForgeSignatureRequest.cs",
-              "RelativeToolTip": "Order.Repository\\Model\\ForgeSignatureRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-22T05:00:44.161Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "SalesOrderRepository.cs",
-              "DocumentMoniker": "D:\\GitHub\\SOH-Prescription-create-Azure-Function\\Order.Repository\\Services\\SalesOrderRepository.cs",
-              "RelativeDocumentMoniker": "Order.Repository\\Services\\SalesOrderRepository.cs",
-              "ToolTip": "D:\\GitHub\\SOH-Prescription-create-Azure-Function\\Order.Repository\\Services\\SalesOrderRepository.cs",
-              "RelativeToolTip": "Order.Repository\\Services\\SalesOrderRepository.cs",
-              "ViewState": "AgIAABQBAAAAAAAAAAAUwCABAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-21T09:21:39.139Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "host.json",
-              "DocumentMoniker": "D:\\GitHub\\SOH-Prescription-create-Azure-Function\\SOHGeneratePrescription\\host.json",
-              "RelativeDocumentMoniker": "SOHGeneratePrescription\\host.json",
-              "ToolTip": "D:\\GitHub\\SOH-Prescription-create-Azure-Function\\SOHGeneratePrescription\\host.json",
-              "RelativeToolTip": "SOHGeneratePrescription\\host.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-07-21T05:28:38.22Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "CreatePrescriptionSync.cs",
               "DocumentMoniker": "D:\\GitHub\\SOH-Prescription-create-Azure-Function\\SOHGeneratePrescription\\CreatePrescriptionSync.cs",
               "RelativeDocumentMoniker": "SOHGeneratePrescription\\CreatePrescriptionSync.cs",
               "ToolTip": "D:\\GitHub\\SOH-Prescription-create-Azure-Function\\SOHGeneratePrescription\\CreatePrescriptionSync.cs",
               "RelativeToolTip": "SOHGeneratePrescription\\CreatePrescriptionSync.cs",
-              "ViewState": "AgIAAA4BAAAAAAAAAAApwCMBAABHAAAAAAAAAA==",
+              "ViewState": "AgIAAGQAAAAAAAAAAAAwwHMAAABNAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-18T12:48:18.75Z",
+              "WhenOpened": "2025-07-23T12:02:35.504Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "OrderDetail.cs",
-              "DocumentMoniker": "D:\\GitHub\\SOH-Prescription-create-Azure-Function\\Order.Repository\\Entities\\OrderDetail.cs",
-              "RelativeDocumentMoniker": "Order.Repository\\Entities\\OrderDetail.cs",
-              "ToolTip": "D:\\GitHub\\SOH-Prescription-create-Azure-Function\\Order.Repository\\Entities\\OrderDetail.cs",
-              "RelativeToolTip": "Order.Repository\\Entities\\OrderDetail.cs",
-              "ViewState": "AgIAACUAAAAAAAAAAIAwwCoAAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-10T13:03:35.598Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "local.settings.json",
               "DocumentMoniker": "D:\\GitHub\\SOH-Prescription-create-Azure-Function\\SOHGeneratePrescription\\local.settings.json",
               "RelativeDocumentMoniker": "SOHGeneratePrescription\\local.settings.json",
               "ToolTip": "D:\\GitHub\\SOH-Prescription-create-Azure-Function\\SOHGeneratePrescription\\local.settings.json",
               "RelativeToolTip": "SOHGeneratePrescription\\local.settings.json",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAA4AAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-07-10T12:57:50.026Z",
+              "WhenOpened": "2025-07-23T11:59:20.266Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ForgeSignatureResponse.cs",
-              "DocumentMoniker": "D:\\GitHub\\SOH-Prescription-create-Azure-Function\\Order.Repository\\Model\\ForgeSignatureResponse.cs",
-              "RelativeDocumentMoniker": "Order.Repository\\Model\\ForgeSignatureResponse.cs",
-              "ToolTip": "D:\\GitHub\\SOH-Prescription-create-Azure-Function\\Order.Repository\\Model\\ForgeSignatureResponse.cs",
-              "RelativeToolTip": "Order.Repository\\Model\\ForgeSignatureResponse.cs",
-              "ViewState": "AgIAABYAAAAAAAAAAAA0wCQAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-22T05:12:02.95Z"
             }
           ]
         }

@@ -17,7 +17,9 @@ namespace Order.Repository.Services
 
         Task<List<AppConfigurationSetting>> GetSettingsAsync();
         Task<PendingPrescriptionResponse> GetPrescriptionOrdersByIdAsync(int id);
-        Task<PendingPrescriptionResponse> GetPrescriptionOrdersAsync();
+        //Task<PendingPrescriptionResponse> GetPrescriptionOrdersAsync();
         Task<bool> UpdatePrescriptionOrdersAsync(ILogger log, bool isSent, int id, string blobFilePath, string fileName);
+        Task<string> GetForgeAccessTokenAsync();
+        Task<string> GetPrescriptionDetails(ILogger log, string forgeOrderId, string forgeToken);
     }
 }

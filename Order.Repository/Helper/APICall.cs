@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -35,7 +36,7 @@ namespace Order.Repository.Helper
             return retval;
         }
 
-        public static async Task<string> GetCallBC(string APIEndPoint, string Token)
+        public static async Task<string> GetCallBC(ILogger log,string APIEndPoint, string Token)
         {
             var retval = string.Empty;
 
@@ -43,6 +44,7 @@ namespace Order.Repository.Helper
             {
                 var Tenant = Environment.GetEnvironmentVariable("Tenant");
                 var SandboxName = Environment.GetEnvironmentVariable("SandboxName");
+
                 APIEndPoint = "https://api.businesscentral.dynamics.com/v2.0/" + Tenant + "/" + SandboxName + "/api/" + APIEndPoint;
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(APIEndPoint);
@@ -53,6 +55,7 @@ namespace Order.Repository.Helper
             }
             catch (Exception ex)
             {
+                log.LogError("Customer BC api response error: " + ex.ToString());
             }
 
             return retval;
@@ -68,20 +71,41 @@ namespace Order.Repository.Helper
                 var finalAPIURL = Environment.GetEnvironmentVariable("ForgeSignatureAPIURL");
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(HttpMethod.Post, finalAPIURL);
-                //request.Headers.Add("accept", "/");
                 request.Headers.Add("x-api-key", forgeAPIKey);
                 var jsonContent = new StringContent(Data);
                 jsonContent.Headers.ContentType = new MediaTypeWithQualityHeaderValue("application/json");
                 request.Content = jsonContent;
                 var response = await client.SendAsync(request);
-                //response.EnsureSuccessStatusCode();
-                //Console.WriteLine(await response.Content.ReadAsStringAsync());
 
                 if (response.IsSuccessStatusCode)
                     retval = await response.Content.ReadAsStringAsync();
                 else
                     retval = await response.Content.ReadAsStringAsync();
 
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return retval;
+        }
+
+        public static async Task<string> ForgeGetCall(string APIEndPoint, string Token)
+        {
+            var retval = string.Empty;
+
+            try
+            {
+                var APIURL = Environment.GetEnvironmentVariable("ForgeAPIUrl");
+                var finalAPIURL = APIURL + "" + APIEndPoint;
+                var client = new HttpClient();
+                var request = new HttpRequestMessage(HttpMethod.Get, finalAPIURL);
+                request.Headers.Add("Authorization", "Bearer " + Token);
+                var content = new StringContent(string.Empty);
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                request.Content = content;
+                var response = await client.SendAsync(request);
+                retval = await response.Content.ReadAsStringAsync();
             }
             catch (Exception ex)
             {

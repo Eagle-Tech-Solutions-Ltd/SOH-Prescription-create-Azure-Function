@@ -95,6 +95,7 @@ namespace SOHGeneratePrescription
                 var smtpPassword = settings.Where(m => m.SystemName == "smtppassword").Select(m => m.DisplayValue).FirstOrDefault();
                 var userdefault = settings.Where(m => m.SystemName == "userdefaultcredentials").Select(m => m.DisplayValue).FirstOrDefault() == "false";
                 var toEmails = settings.Where(m => m.SystemName == "prescriptiondistributionlist").Select(m => m.DisplayValue).FirstOrDefault();
+                var forgeToken = await _salesOrderRepo.GetForgeAccessTokenAsync().ConfigureAwait(false);
 
                 foreach (var item in allOrders.orders)
                 {
@@ -106,11 +107,16 @@ namespace SOHGeneratePrescription
 
                     var order = item;
                     var orderItemList = item.OrderItemDetails.ToList();
+                    var finalPrescriptionDetail = new PrescriptionDetailResponse();
+                    var prescriptionDetails = await _salesOrderRepo.GetPrescriptionDetails(log, order.forge_order_id, forgeToken).ConfigureAwait(false);
+
+                    if (!string.IsNullOrEmpty(prescriptionDetails))
+                        finalPrescriptionDetail = JsonConvert.DeserializeObject<PrescriptionDetailResponse>(prescriptionDetails);
 
                     var customer = await _salesOrderRepo.GetCustomDetailAsync(log, order.bc_customer_id).ConfigureAwait(false);
                     if (customer != null)
                     {
-                        var signature = await GetPrescriberSignature(log, order.PrescriberSignature, order.PrescriberSignaturePath).ConfigureAwait(false);
+                        var signature = await GetPrescriberSignature(log, finalPrescriptionDetail?.prescriber_signature_file, finalPrescriptionDetail?.prescriber_signature_folder).ConfigureAwait(false);
                         using var stream = new MemoryStream();
                         byte[] logoBytesSignature;
                         //https://onlinepngtools.com/images/examples-onlinepngtools/george-walker-bush-signature.png
@@ -130,6 +136,7 @@ namespace SOHGeneratePrescription
                                     // Row for centered company name
                                     header.Item().AlignLeft().Column(col =>
                                     {
+                                        col.Item().Text("Pharmacy & Doctor").FontSize(10).Bold().FontColor("#E0E0E2");
                                         col.Item().Text("https://www.simpleonlinedoctor.com.au/").FontSize(10).Bold();
                                         col.Item().Text("119 RACECOURSE RD").FontSize(10);
                                         col.Item().Text("ASCOT QLD").FontSize(10);
@@ -139,6 +146,7 @@ namespace SOHGeneratePrescription
 
                                 page.Content().PaddingTop(20).Column(col =>
                                 {
+                                    col.Item().Text("Patient").FontSize(10).Bold().FontColor("#E0E0E2");
                                     col.Item().Text(item.CustomerName).FontSize(10).Bold();
                                     col.Item().Text(item.AddressLine1 + " " + item.AddressLine2).FontSize(10);
                                     col.Item().Text(item.City + " " + item.State).FontSize(10);
@@ -176,8 +184,8 @@ namespace SOHGeneratePrescription
                                         table.Cell().AlignLeft().Element(CellStyle).Text(item.order_date.ToString("dd/MM/yyyy"));
                                         table.Cell().AlignRight().Element(CellStyle).Text("Prescription Date").Bold();
 
-                                        if (item.PrescriptionWritingDate.HasValue)
-                                            table.Cell().AlignRight().Element(CellStyle).Text(item.PrescriptionWritingDate.Value.Date.ToString("dd/MM/yyyy"));
+                                        if (finalPrescriptionDetail.prescription_writing_date.HasValue)
+                                            table.Cell().AlignRight().Element(CellStyle).Text(finalPrescriptionDetail.prescription_writing_date.Value.Date.ToString("dd/MM/yyyy"));
                                         else
                                             table.Cell().AlignRight().Element(CellStyle).Text("");
 
@@ -275,19 +283,31 @@ namespace SOHGeneratePrescription
                                             row.RelativeItem(); // Spacer to fill row
                                         });
                                     }
-                                    //col.Item().PaddingTop(5).Text(order.PrescriberName).FontSize(10).Bold();
+                                    else
+                                    {
+                                        col.Item().PaddingTop(30).Text("").FontSize(10).Bold();
+                                    }
 
-                                    if (!string.IsNullOrEmpty(order.PrescriberTitle) && !string.IsNullOrEmpty(order.PrescriberName))
-                                        col.Item().PaddingTop(5).Text(order.PrescriberTitle + " " + order.PrescriberName).FontSize(10).Bold();
-                                    else if (!string.IsNullOrEmpty(order.PrescriberName))
-                                        col.Item().PaddingTop(5).Text(order.PrescriberName).FontSize(10).Bold();
-                                    else if (!string.IsNullOrEmpty(order.PrescriberTitle))
-                                        col.Item().PaddingTop(5).Text(order.PrescriberTitle).FontSize(10).Bold();
+                                    string PrescriberName = string.Empty;
+
+                                    if (!string.IsNullOrWhiteSpace(finalPrescriptionDetail?.prescriber_name))
+                                    {
+                                        if (!string.IsNullOrEmpty(finalPrescriptionDetail?.prescriber_title))
+                                            PrescriberName = finalPrescriptionDetail?.prescriber_title + " " + finalPrescriptionDetail?.prescriber_name;
+                                        else
+                                            PrescriberName = finalPrescriptionDetail?.prescriber_name;
+
+                                        if (!string.IsNullOrWhiteSpace(finalPrescriptionDetail?.prescriber_number))
+                                            PrescriberName += $" (Prescriber No. {finalPrescriptionDetail?.prescriber_number})";
+                                    }
+
+                                    if (!string.IsNullOrEmpty(PrescriberName))
+                                        col.Item().PaddingTop(5).Text(PrescriberName).FontSize(10).Bold();
                                     else
                                         col.Item().PaddingTop(5).Text("").FontSize(10).Bold();
 
-                                    if(!string.IsNullOrEmpty(order.PrescriberProfessionalQualitifcation))
-                                        col.Item().PaddingTop(5).Text(order.PrescriberProfessionalQualitifcation).FontSize(10).Bold();
+                                    if (!string.IsNullOrEmpty(PrescriberName) && !string.IsNullOrEmpty(finalPrescriptionDetail?.prescriber_professional_qualitifcation))
+                                        col.Item().PaddingTop(5).Text(finalPrescriptionDetail?.prescriber_professional_qualitifcation).FontSize(10).Bold();
                                     else
                                         col.Item().PaddingTop(5).Text("").FontSize(10).Bold();
                                 });
@@ -295,7 +315,7 @@ namespace SOHGeneratePrescription
                                 page.Footer().AlignCenter().Column(column =>
                                 {
                                     column.Item().Text("RACECOURSE ROAD PHARMACY, M.LEUNG & H.YOO").FontSize(10).AlignCenter();
-                                    column.Item().Text("119 RACECOURSE RD, ASCOT 4007 Ph: 3268322").FontSize(10).AlignCenter();
+                                    column.Item().Text("119 RACECOURSE RD, ASCOT 4007 Ph: 32683222").FontSize(10).AlignCenter();
                                 });
                             });
                         });
@@ -338,13 +358,17 @@ namespace SOHGeneratePrescription
                 if (retval)
                 {
                     var ZipBlobFileLink = blobStorageEndpoint + "" + containerName + "/" + blobName;
-                    var isSent = await SendEmail(log, host, Convert.ToInt32(port), enableSsl, userdefault, smtpUsername, smtpPassword, fromEmail, ZipBlobFileLink, toEmails);
-                    retval = await _salesOrderRepo.UpdatePrescriptionOrdersAsync(log, isSent, allOrders.PrescriptionRequestID, ZipBlobFileLink, blobName).ConfigureAwait(false);
 
-                    if (isSent)
-                        log.LogInformation("Prescription orders processed successfully. " + retval.ToString());
-                    else
-                        log.LogError("Prescription created but failed to send in email.");
+                    retval = await _salesOrderRepo.UpdatePrescriptionOrdersAsync(log, false, allOrders.PrescriptionRequestID, ZipBlobFileLink, blobName).ConfigureAwait(false);
+                    log.LogInformation("Prescription orders processed successfully. " + retval.ToString());
+
+                    //var isSent = await SendEmail(log, host, Convert.ToInt32(port), enableSsl, userdefault, smtpUsername, smtpPassword, fromEmail, ZipBlobFileLink, toEmails);
+                    //retval = await _salesOrderRepo.UpdatePrescriptionOrdersAsync(log, isSent, allOrders.PrescriptionRequestID, ZipBlobFileLink, blobName).ConfigureAwait(false);
+
+                    //if (isSent)
+                    //    log.LogInformation("Prescription orders processed successfully. " + retval.ToString());
+                    //else
+                    //    log.LogError("Prescription created but failed to send in email.");
                 }
                 else
                 {

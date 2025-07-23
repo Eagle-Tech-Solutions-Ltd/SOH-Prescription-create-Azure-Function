@@ -9,6 +9,7 @@ using Order.Repository.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,9 +36,9 @@ namespace Order.Repository.Services
         {
             try
             {
-                string token = await GetAccessTokenAsync();
+                string token = await GetAccessTokenAsync(log);
                 var DefaultCompanyID = Environment.GetEnvironmentVariable("DefaultCompanyID");
-                var bcCustomerDetailResponse = await APICall.GetCallBC($"v2.0/companies({DefaultCompanyID})/customers({id})", token);
+                var bcCustomerDetailResponse = await APICall.GetCallBC(log,$"v2.0/companies({DefaultCompanyID})/customers({id})", token);
 
                 if (string.IsNullOrEmpty(bcCustomerDetailResponse))
                 {
@@ -53,7 +54,7 @@ namespace Order.Repository.Services
                 }
                 else
                 {
-                    log.LogError("Customer Detail Empty");
+                    log.LogError("Customer Detail Empty: "+ bcCustomerDetailResponse);
                 }
             }
             catch (Exception ex)
@@ -128,7 +129,7 @@ namespace Order.Repository.Services
         //    }
         //}
 
-        public async Task<string> GetAccessTokenAsync()
+        public async Task<string> GetAccessTokenAsync(ILogger log)
         {
             // Thread-safe cache check
             lock (_tokenLock)
@@ -176,12 +177,49 @@ namespace Order.Repository.Services
                     }
                 }
             }
-            catch
+            catch(Exception ex)
             {
                 // Optionally log the exception
+                log.LogError("Acc Token error: " + ex.ToString());
             }
 
             return string.Empty;
+        }
+
+        public async Task<string> GetForgeAccessTokenAsync()
+        {
+            var retval = "";
+
+            try
+            {
+                var APIUrl = Environment.GetEnvironmentVariable("ForgeAPIUrl");
+                var ClientID = Environment.GetEnvironmentVariable("ForgeClientID");
+                var ClientSecret = Environment.GetEnvironmentVariable("ForgeClientSecret");
+
+                using (HttpClient client = new HttpClient())
+                {
+                    var request = new HttpRequestMessage(HttpMethod.Post, APIUrl + "generate-token/");
+                    request.Headers.Add("X-Client-ID", ClientID);
+                    request.Headers.Add("X-Client-Secret", ClientSecret);
+                    var response = await client.SendAsync(request);
+                    response.EnsureSuccessStatusCode();
+                    var tokenResponse = await response.Content.ReadAsStringAsync();
+
+                    if (!string.IsNullOrEmpty(tokenResponse))
+                    {
+                        var mainModel = JsonConvert.DeserializeObject<TokenResponse>(tokenResponse);
+
+                        if (mainModel != null && !string.IsNullOrEmpty(mainModel.token))
+                            retval = mainModel.token;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return retval;
         }
 
         public async Task<List<AppConfigurationSetting>> GetSettingsAsync()
@@ -223,36 +261,36 @@ namespace Order.Repository.Services
             return null;
         }
 
-        public async Task<PendingPrescriptionResponse> GetPrescriptionOrdersAsync()
-        {
-            var retval = new PendingPrescriptionResponse();
+        //public async Task<PendingPrescriptionResponse> GetPrescriptionOrdersAsync()
+        //{
+        //    var retval = new PendingPrescriptionResponse();
 
-            try
-            {
-                var prescriptionDownloadRequests = await _context.PrescriptionDownloadRequests
-                .Where(o => o.IsWorkDone == false)
-                .FirstOrDefaultAsync()
-                .ConfigureAwait(false);
+        //    try
+        //    {
+        //        var prescriptionDownloadRequests = await _context.PrescriptionDownloadRequests
+        //        .Where(o => o.IsWorkDone == false)
+        //        .FirstOrDefaultAsync()
+        //        .ConfigureAwait(false);
 
-                if (prescriptionDownloadRequests == null)
-                    return retval;
+        //        if (prescriptionDownloadRequests == null)
+        //            return retval;
 
-                retval.PrescriptionRequestID = prescriptionDownloadRequests.ID;
-                var orderIds = prescriptionDownloadRequests.OrderIds.Replace(" ", "").Split(',').Select(int.Parse).ToList();
-                retval.orders = await _context.OrderDetails
-                    .Where(o => orderIds.Contains(o.id) && o.status == "shipped")
-                    .Include(o => o.OrderItemDetails)
-                    .ToListAsync()
-                    .ConfigureAwait(false);
+        //        retval.PrescriptionRequestID = prescriptionDownloadRequests.ID;
+        //        var orderIds = prescriptionDownloadRequests.OrderIds.Replace(" ", "").Split(',').Select(int.Parse).ToList();
+        //        retval.orders = await _context.OrderDetails
+        //            .Where(o => orderIds.Contains(o.id) && o.status == "shipped")
+        //            .Include(o => o.OrderItemDetails)
+        //            .ToListAsync()
+        //            .ConfigureAwait(false);
 
-                return retval;
-            }
-            catch (Exception ex)
-            {
-            }
+        //        return retval;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
 
         public async Task<bool> UpdatePrescriptionOrdersAsync(ILogger log, bool IsSent, int id, string blobFilePath, string fileName)
         {
@@ -283,6 +321,23 @@ namespace Order.Repository.Services
             {
                 log.LogError("Update Prescription Error: " + ex.ToString());
                 retval = false;
+            }
+
+            return retval;
+        }
+
+        public async Task<string> GetPrescriptionDetails(ILogger log, string forgeOrderId, string forgeToken)
+        {
+            var retval = string.Empty;
+
+            try
+            {
+                var prescriptionDetail = await APICall.ForgeGetCall("order-prescriber-data/" + forgeOrderId + "/", forgeToken);
+                log.LogError("Prescription Details: " + prescriptionDetail);
+                return prescriptionDetail;
+            }
+            catch (Exception ex)
+            {
             }
 
             return retval;

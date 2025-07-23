@@ -12,6 +12,7 @@ namespace Order.Repository.Entities
         [Key]
         public int ID { get; set; }
         public string OrderIds { get; set; }
+        public string ForgeOrderIds { get; set; }
         public string? BlobFileName { get; set; }
         public string? BlobFilePath { get; set; }
         public bool IsSent { get; set; }
