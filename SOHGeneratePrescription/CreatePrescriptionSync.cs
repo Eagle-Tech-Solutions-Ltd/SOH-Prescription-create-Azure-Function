@@ -377,6 +377,7 @@ namespace SOHGeneratePrescription
             }
             catch (Exception ex)
             {
+                log.LogError("Prescription Error catch: " + ex.ToString());
                 retval = false;
             }
 
