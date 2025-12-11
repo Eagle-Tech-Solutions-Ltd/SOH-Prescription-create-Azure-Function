@@ -49,6 +49,7 @@ namespace Order.Repository.Entities
         public string? MedicationNumberOfRepeats { get; set; }
         public string? PrescriberSignature { get; set; }
         public string? PrescriberSignaturePath { get; set; }
+        public int TryCount { get; set; }
 
         public virtual ICollection<OrderItemDetail> OrderItemDetails { get; set; }
     }
