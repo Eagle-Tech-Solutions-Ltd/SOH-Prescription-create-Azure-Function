@@ -21,6 +21,8 @@ namespace Order.Repository.Entities
         public string? BinBarcode { get; set; }
         public string? InvoiceID { get; set; }
         public string? CustomerName { get; set; }
+        public string? CustomerEmail { get; set; }
+        public string? CustomerPhone { get; set; }
         public string? AddressLine1 { get; set; }
         public string? AddressLine2 { get; set; }
         public string? City { get; set; }
